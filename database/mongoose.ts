@@ -1,29 +1,33 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable');
-}
+if (!MONGODB_URI) throw new Error('Please define the MONGODB_URI environment variable');
 
 declare global {
-    // eslint-disable-next-line no-var
-    var mongoose: { conn: typeof import('mongoose') | null; promise: Promise<typeof import('mongoose')> | null };
+    var mongooseCache: {
+        conn: typeof mongoose | null
+        promise: Promise<typeof mongoose> | null
+    }
 }
 
-let cached = global.mongoose;
+let cached = global.mongooseCache || (global.mongooseCache = { conn: null, promise: null });
 
-if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
-}
-
-export async function connectToDatabase() {
+export const connectToDatabase = async () => {
     if (cached.conn) return cached.conn;
 
     if (!cached.promise) {
-        cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false }).then((m) => m);
+        cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
     }
 
-    cached.conn = await cached.promise;
+    try {
+        cached.conn = await cached.promise;
+    } catch (e) {
+        cached.promise = null;
+        console.error('MongoDB connection error. Please make sure MongoDB is running. ' + e);
+        throw e;
+    }
+
+    console.info('Connected to MongoDB');
     return cached.conn;
 }
