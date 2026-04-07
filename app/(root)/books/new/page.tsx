@@ -1,4 +1,4 @@
-// import UploadForm from "@/components/UploadForm";
+import UploadForm from "@/components/UploadForm";
 
 const Page = () => {
     return (
@@ -8,7 +8,7 @@ const Page = () => {
                 <p className="subtitle">Upload a PDF to generate your  interactive reading experience</p>
             </section>
 
-            {/* <UploadForm /> */}
+            <UploadForm />
         </main>
     )
 }
