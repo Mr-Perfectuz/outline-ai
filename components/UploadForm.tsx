@@ -17,7 +17,7 @@ import {useAuth, useUser} from "@clerk/nextjs";
 import { toast } from 'sonner';
 // import { checkBookExists, createBook, saveBookSegments } from "@/lib/actions/book.actions";
 import {useRouter} from "next/navigation";
-import {parsePDFFile} from "@/lib/utils";
+import { parsePDFFile } from "@/lib/pdf";
 import { upload } from "@vercel/blob/client";
 
 const UploadForm = () => {
