@@ -1,0 +1,27 @@
+language: "en-US"
+
+reviews:
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  path_filters:
+    - "!**/.vscode/**"
+    - "!**/node_modules/**"
+    - "!package-lock.json"
+    - "!**/*.md"
+
+  path_instructions:
+    - path: "database/models/**"
+      instructions: "Check Mongoose schema definitions for correctness, proper indexing, and type safety. Flag missing required fields or incorrect index usage."
+    - path: "lib/actions/**"
+      instructions: "These are Next.js server actions. Check for proper error handling, input validation, and security issues like unauthorized access."
+    - path: "components/**"
+      instructions: "React components using Next.js App Router. Check for correct use of 'use client' directive, accessibility, and prop type safety."
+    - path: "lib/zod.ts"
+      instructions: "Zod validation schemas. Ensure all fields are validated and error messages are user-friendly."
+
+chat:
+  auto_reply: true
