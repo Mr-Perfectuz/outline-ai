@@ -6,6 +6,7 @@ import {IBook} from "@/types";
 import Image from "next/image";
 import Transcript from "@/components/Transcript";
 import {toast} from "sonner";
+
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 
@@ -18,8 +19,6 @@ const VapiControls = ({ book }: { book: IBook }) => {
             toast.error(limitError);
             if (isBillingError) {
                 router.push("/subscriptions");
-            } else {
-                router.push("/");
             }
             clearError();
         }
